@@ -15,7 +15,7 @@ public class Lugar {
     private String ubicacion;
     private String email;
     private String estado;
-
+    private String hola;
     public Lugar() {
     }
 
