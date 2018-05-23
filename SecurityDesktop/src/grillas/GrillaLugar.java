@@ -25,7 +25,7 @@ import objetos.Lugar;
 public class GrillaLugar extends AbstractTableModel {
 
     private ArrayList<Lugar> ac;
-    private String titulos[] = {"nombreLugar", "ubicacion", "emails","estado"};
+    private String titulos[] = {"NOMBRE LUGAR", "UBICACION", "EMAIL","ESTADO"};
 
     public GrillaLugar(ArrayList<Lugar> ac) {
         this.ac = ac;
