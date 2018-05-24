@@ -11,6 +11,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -22,10 +23,15 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.shape.CullFace;
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -54,7 +60,8 @@ public class GestionLugar extends javax.swing.JFrame {
         List<Lugar> ca = controlador.extraertodo();
         try {
             grillaLugar = new GrillaLugar((ArrayList<Lugar>) ca);
-            jtLugares.setModel(grillaLugar);
+            jtabla2.setModel(grillaLugar);
+            //jtabla2.setModel(grillaLugar);
         } catch (Exception e) {
         }
     }
@@ -111,11 +118,13 @@ public class GestionLugar extends javax.swing.JFrame {
         jPanel15 = new javax.swing.JPanel();
         jlAgregar = new javax.swing.JLabel();
         jlRutaImagen = new javax.swing.JLabel();
+        rSButtonShade1 = new rscomponentshade.RSButtonShade();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtabla2 = new rojerusan.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         panel.setBackground(new java.awt.Color(255, 153, 0));
         panel.setFont(new java.awt.Font("Franklin Gothic Medium Cond", 1, 18)); // NOI18N
@@ -332,7 +341,7 @@ public class GestionLugar extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlNombreLugar, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                    .addComponent(jlNombreLugar, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                     .addComponent(jlUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jlEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -344,9 +353,7 @@ public class GestionLugar extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jlImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(jlImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jlNombreLugar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -359,7 +366,8 @@ public class GestionLugar extends javax.swing.JFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jlEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -524,7 +532,7 @@ public class GestionLugar extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -565,7 +573,7 @@ public class GestionLugar extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(440, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -577,6 +585,27 @@ public class GestionLugar extends javax.swing.JFrame {
 
         jlRutaImagen.setText("jLabel12");
 
+        rSButtonShade1.setBackground(new java.awt.Color(255, 153, 0));
+        rSButtonShade1.setText("rSButtonShade1");
+        rSButtonShade1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSButtonShade1ActionPerformed(evt);
+            }
+        });
+
+        jtabla2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jtabla2);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -587,12 +616,16 @@ public class GestionLugar extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jlRutaImagen)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlRutaImagen)
+                            .addComponent(rSButtonShade1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -601,9 +634,15 @@ public class GestionLugar extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(87, 87, 87)
-                        .addComponent(jlRutaImagen)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(rSButtonShade1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(jlRutaImagen))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -625,7 +664,7 @@ public class GestionLugar extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1317, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -688,6 +727,7 @@ public class GestionLugar extends javax.swing.JFrame {
         //Si deseas que se muestre primero los filtros usa la linea q esta abajo de esta.
         //archivo.setFileFilter(filtro);
         // Agregamos el Filtro pero cuidado se mostrara despues de todos los archivos
+       archivo.setAcceptAllFileFilterUsed(false);
         archivo.addChoosableFileFilter(filtro);
         // Colocamos titulo a nuestra ventana de Seleccion
         archivo.setDialogTitle("Abrir Archivo");
@@ -710,11 +750,39 @@ public class GestionLugar extends javax.swing.JFrame {
             //Le damos dimension a nuestro label que tendra la imagen
             //   foto= foto.getScaledInstance(110, 110, Image.SCALE_DEFAULT);
             //Imprimimos la imagen en el label
-            jlRutaImagen.setText(ruta);
+            Random generadorNumero = new Random();
+            int numeroAleatorio = 1+ generadorNumero.nextInt(1000000);
+            File destino = new File("E:\\Descargas\\security\\"+numeroAleatorio+".jpg");
+            try {
+
+                comprimirImagen(file, destino, 0.5f);
+                                            String ruta2 = String.valueOf(destino);
+
+                jlRutaImagen.setText(ruta2);
+            } catch (IOException ex) {
+                Logger.getLogger(GestionLugar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             jlImagenSeleccionada.setIcon(new ImageIcon(foto));
         }
 
     }//GEN-LAST:event_jlSeleccionarMouseClicked
+public static void comprimirImagen(File original, File destino, float calidad) throws IOException{
+    RenderedImage imagen = ImageIO.read(original);
+    ImageWriter jpegWrite = ImageIO.getImageWritersByFormatName("jpg").next();
+    ImageWriteParam jpgWriteParam = jpegWrite.getDefaultWriteParam();
+    jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+    jpgWriteParam.setCompressionQuality(calidad);
+    try(ImageOutputStream output = ImageIO.createImageOutputStream(destino)){
+        jpegWrite.setOutput(output);
+        IIOImage outputImage = new IIOImage(imagen,null,null);
+        jpegWrite.write(null, outputImage, jpgWriteParam);
+    }
+    jpegWrite.dispose();
+    
+}
+
+
 
     private void jlAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlAgregarMouseClicked
         Lugar l = new Lugar();
@@ -732,6 +800,21 @@ public class GestionLugar extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jlAgregarMouseClicked
+
+    private void rSButtonShade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonShade1ActionPerformed
+                Lugar l = new Lugar();
+        l.setNombreLugar(jtNombreLugar.getText());
+        l.setUbicacion(jtUbicacion.getText());
+        l.setEmail(jtEmail.getText());
+        int seleccionado = jcbEstado.getSelectedIndex();
+        l.setEstado(jcbEstado.getItemAt(seleccionado));
+        
+        try {
+            controlador.insetar(l, jlRutaImagen.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionLugar.class.getName()).log(Level.SEVERE, null, ex);
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_rSButtonShade1ActionPerformed
 public static byte[] convertFileContentToBlob(String filePath) throws IOException {
 	byte[] fileContent = null;
         // initialize string buffer to hold contents of file
@@ -828,6 +911,7 @@ public static byte[] convertFileContentToBlob(String filePath) throws IOExceptio
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> jcbEstado;
     private javax.swing.JLabel jlAgregar;
     private javax.swing.JLabel jlEmail;
@@ -842,7 +926,9 @@ public static byte[] convertFileContentToBlob(String filePath) throws IOExceptio
     private javax.swing.JTable jtLugares;
     private javax.swing.JTextField jtNombreLugar;
     private javax.swing.JTextField jtUbicacion;
+    private rojerusan.RSTableMetro jtabla2;
     private javax.swing.JTabbedPane panel;
+    private rscomponentshade.RSButtonShade rSButtonShade1;
     // End of variables declaration//GEN-END:variables
 /*static public class Color extends DefaultTableCellHeaderRenderer{
 
