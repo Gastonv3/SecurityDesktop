@@ -5,6 +5,7 @@
  */
 package controladores;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -66,7 +67,7 @@ public class LugarControlador {
                 aca.add(ca);
 
             }
-            conexion.close();
+            //conexion.close();
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(null, e);
         }
@@ -74,15 +75,18 @@ public class LugarControlador {
 
     }
 
-    public void insetar(Lugar ca) throws SQLException {
-        String query = "INSERT INTO `lugares` (`nombreLugar`, `ubicacion`, `emails`, `estado`)"
-                + "VALUES (?, ?, ?, '1');";
+    public void insetar(Lugar ca, String ruta) throws SQLException {
+        String query = "INSERT INTO `lugares` (`nombreLugar`, `ubicacion`, `emails`, `imagenLugar`, `estado`)"
+                + "VALUES (?, ?, ?, ?, ?);";
         try {
+              FileInputStream  archivofoto;
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setString(1, ca.getNombreLugar());
             ps.setString(2, ca.getUbicacion());
             ps.setString(3, ca.getEmail());
-            ps.setString(4, ca.getEstado());
+            archivofoto = new FileInputStream(ruta);
+            ps.setBinaryStream(4, archivofoto);
+            ps.setString(5, ca.getEstado());
             ps.executeUpdate();
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(null, e);

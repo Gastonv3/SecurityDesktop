@@ -21,9 +21,14 @@ public class SecurityDesktop {
      */
     public static void main(String[] args) throws SQLException {
         LugarControlador controlador = new LugarControlador();
-        List <Lugar> ca = controlador.extraertodo();
-       
-            System.out.println(ca);
+       // List <Lugar> ca = controlador.extraertodo();
+       Lugar l = new Lugar();
+       l.setNombreLugar("A");
+       l.setUbicacion("b");
+       l.setEmail("c");
+       l.setEstado("d");
+    //   controlador.insetar(l);
+            //System.out.println(ca);
 
     }
     

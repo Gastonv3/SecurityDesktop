@@ -18,12 +18,19 @@ public class Lugar {
     private String email;
     private Blob dato; 
 
-    public Lugar(Integer idLugares, String nombreLugar, String ubicacion, String email, Blob dato, String estado) {
+   /* public Lugar(Integer idLugares, String nombreLugar, String ubicacion, String email, Blob dato, String estado) {
         this.idLugares = idLugares;
         this.nombreLugar = nombreLugar;
         this.ubicacion = ubicacion;
         this.email = email;
         this.dato = dato;
+        this.estado = estado;
+    }*/
+
+    public Lugar(String nombreLugar, String ubicacion, String email, String estado) {
+        this.nombreLugar = nombreLugar;
+        this.ubicacion = ubicacion;
+        this.email = email;
         this.estado = estado;
     }
 
