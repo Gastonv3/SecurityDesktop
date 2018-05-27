@@ -16,7 +16,17 @@ public class Lugar {
     private String nombreLugar;
     private String ubicacion;
     private String email;
-    private Blob dato; 
+    private byte []imagen;
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+    
+//private Blob dato; 
 
    /* public Lugar(Integer idLugares, String nombreLugar, String ubicacion, String email, Blob dato, String estado) {
         this.idLugares = idLugares;
@@ -34,13 +44,13 @@ public class Lugar {
         this.estado = estado;
     }
 
-    public Blob getDato() {
+  /*  public Blob getDato() {
         return dato;
     }
 
     public void setDato(Blob dato) {
         this.dato = dato;
-    }
+    }*/
 
 
     private String estado;

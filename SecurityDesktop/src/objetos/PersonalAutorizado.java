@@ -10,12 +10,22 @@ package objetos;
  * @author Gaston
  */
 public class PersonalAutorizado {
+
     private Integer idPersonalAutorizado;
     private String nombrePersonalAutorizado;
     private String apellidoPersonalAutorizado;
     private String DNI;
     private String cargo;
     private String codigo;
+    private String estado;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     public PersonalAutorizado() {
     }
@@ -76,5 +86,5 @@ public class PersonalAutorizado {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-    
+
 }

@@ -14,7 +14,7 @@ public class Persona {
     private Long idPersona;
     private String nombre;
     private String apellida;
-    private Integer dni;
+    private String dni;
     private String direccion;
     private String telefono;
     private String email;
@@ -22,7 +22,7 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(Long idPersona, String nombre, String apellida, Integer dni, String direccion, String telefono, String email) {
+    public Persona(Long idPersona, String nombre, String apellida, String dni, String direccion, String telefono, String email) {
         this.idPersona = idPersona;
         this.nombre = nombre;
         this.apellida = apellida;
@@ -56,11 +56,11 @@ public class Persona {
         this.apellida = apellida;
     }
 
-    public Integer getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(Integer dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 

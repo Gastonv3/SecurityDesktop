@@ -5,29 +5,21 @@
  */
 package grillas;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 import objetos.Lugar;
+import objetos.PersonalAutorizado;
 
 /**
  *
  * @author Skylake
  */
-public class GrillaLugar extends AbstractTableModel {
+public class GrillaPersonalAutorizado extends AbstractTableModel{
+    
+    private ArrayList<PersonalAutorizado> ac;
+    private String titulos[] = {"NOMBRE", "APELLIDO", "DNI","CARGO","CODIGO","ESTADO"};
 
-    private ArrayList<Lugar> ac;
-    private String titulos[] = {"NOMBRE LUGAR", "UBICACIÓN", "EMAIL","ESTADO"};
-
-    public GrillaLugar(ArrayList<Lugar> ac) {
+    public GrillaPersonalAutorizado(ArrayList<PersonalAutorizado> ac) {
         this.ac = ac;
     }
 
@@ -38,18 +30,22 @@ public class GrillaLugar extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return ac.get(rowIndex).getNombreLugar();
+                return ac.get(rowIndex).getNombrePersonalAutorizado();
             case 1:
-                return ac.get(rowIndex).getUbicacion();
+                return ac.get(rowIndex).getApellidoPersonalAutorizado();
             case 2:
-                return ac.get(rowIndex).getEmail();
+                return ac.get(rowIndex).getDNI();
+            case 3:
+                return ac.get(rowIndex).getCargo();
+            case 4:
+                return ac.get(rowIndex).getCodigo();    
       /*      case 3:
                 Blob blob= ac.get(rowIndex).getDato();
         {
@@ -67,7 +63,7 @@ public class GrillaLugar extends AbstractTableModel {
             }
         }*/
                 
-            case 3:
+            case 5:
                 if((ac.get(rowIndex).getEstado()).equals("0")){
                      return "INACTIVO";
                 }else{
@@ -85,7 +81,7 @@ public class GrillaLugar extends AbstractTableModel {
       return titulos[column];
     }
 
-    public Lugar getLugar(int index) {
+    public PersonalAutorizado getLugar(int index) {
         return ac.get(index);
     }
 }
