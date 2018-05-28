@@ -14,6 +14,8 @@ import grillas.GrillaUsuario;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import objetos.PersonalAutorizado;
@@ -565,9 +567,23 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
 
     private void jtfBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBuscarKeyReleased
 
-      //  buscar();
+      buscar();
     }//GEN-LAST:event_jtfBuscarKeyReleased
+    public void buscar() {
+        List<Usuario> ca = null;
+        try {
+            String variable = "";
+            variable = jtfBuscar.getText();
+            ca = controlador.buscar(variable);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionLugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+        grillaUsuario = new GrillaUsuario((ArrayList<Usuario>) ca);
+        //jtabla2.setModel(grillaLugar);
+        jtLugares.setModel(grillaUsuario);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;

@@ -6,6 +6,7 @@
 package principal;
 
 import com.sun.awt.AWTUtilities;
+import gestion.GestionControles;
 import gestion.GestionLugar;
 import gestion.GestionLugares;
 import gestion.GestionLugares;
@@ -31,6 +32,7 @@ public class Principal extends javax.swing.JFrame {
     public GestionLugares gestionLugares = null;
     public GestionPersonalAutorizado gestionPersonalAutorizado = null;
     public GestionUsuarios gestionUsuario = null;
+    public GestionControles gestionControles = null;
     public static boolean estacerrado(Object obj) {
         JInternalFrame[] activos = escritorio.getAllFrames();
         boolean cerrado = true;
@@ -78,7 +80,7 @@ public class Principal extends javax.swing.JFrame {
         jbPersonalAutorizado = new rojeru_san.RSButtonRiple();
         jblUsuario = new rojeru_san.RSButtonRiple();
         jbLugares3 = new rojeru_san.RSButtonRiple();
-        jbLugares4 = new rojeru_san.RSButtonRiple();
+        jbControles = new rojeru_san.RSButtonRiple();
         jbLugares5 = new rojeru_san.RSButtonRiple();
         rSPanelShadow2 = new rojeru_san.RSPanelShadow();
         jPanel5 = new javax.swing.JPanel();
@@ -169,10 +171,15 @@ public class Principal extends javax.swing.JFrame {
         jbLugares3.setColorHover(new java.awt.Color(255, 152, 0));
         jbLugares3.setColorText(new java.awt.Color(245, 124, 0));
 
-        jbLugares4.setBackground(new java.awt.Color(255, 255, 255));
-        jbLugares4.setText("LUGARES");
-        jbLugares4.setColorHover(new java.awt.Color(255, 152, 0));
-        jbLugares4.setColorText(new java.awt.Color(245, 124, 0));
+        jbControles.setBackground(new java.awt.Color(255, 255, 255));
+        jbControles.setText("CONTROLES");
+        jbControles.setColorHover(new java.awt.Color(255, 152, 0));
+        jbControles.setColorText(new java.awt.Color(245, 124, 0));
+        jbControles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbControlesActionPerformed(evt);
+            }
+        });
 
         jbLugares5.setBackground(new java.awt.Color(255, 255, 255));
         jbLugares5.setText("LUGARES");
@@ -191,7 +198,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jblUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                     .addComponent(jbLugares3, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                     .addComponent(jbLugares5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                    .addComponent(jbLugares4, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                    .addComponent(jbControles, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -204,7 +211,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbLugares4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jbLugares3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -347,6 +354,21 @@ public class Principal extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jblUsuarioActionPerformed
 
+    private void jbControlesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbControlesActionPerformed
+                         if (estacerrado(gestionControles)) {
+             try {
+                gestionControles = new GestionControles(); // TODO add your handling code here:
+                int width = escritorio.getWidth();
+                int Height = escritorio.getHeight();
+                gestionControles.setSize(width, Height);
+                escritorio.add(gestionControles);
+                gestionControles.show();
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   // TODO add your handling code here:
+    }//GEN-LAST:event_jbControlesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -391,9 +413,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private rojeru_san.RSButtonRiple jbCerrar;
+    private rojeru_san.RSButtonRiple jbControles;
     private rojeru_san.RSButtonRiple jbLugares;
     private rojeru_san.RSButtonRiple jbLugares3;
-    private rojeru_san.RSButtonRiple jbLugares4;
     private rojeru_san.RSButtonRiple jbLugares5;
     private rojeru_san.RSButtonRiple jbMinimizar;
     private rojeru_san.RSButtonRiple jbPersonalAutorizado;

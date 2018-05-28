@@ -192,28 +192,36 @@ public class UsuarioControlador {
 
     }
 
-    public List<PersonalAutorizado> buscar(String busca) throws SQLException {
-        ArrayList<PersonalAutorizado> aca = new ArrayList();
+    public List<Usuario> buscar(String busca) throws SQLException {
+        ArrayList<Usuario> aca = new ArrayList();
         try {
-            String query2 = "SELECT * FROM lugares WHERE nombreLugar LIKE '%" + busca + "%' ORDER BY idLugares;";
+            String query2 = "SELECT p.idPersona, p.nombre, p.apellido, p.dni, p.direccion, p.telefono, p.email, "
+                + "u.tipoUsuario, u.user, u.pass, u.estado "
+                + "FROM personas p INNER JOIN usuarios u on p.idPersona = u.idpersona WHERE (p.nombre LIKE'" + busca + "%' OR "
+                    + "p.nombre LIKE'" + busca + "%' OR p.dni LIKE'" + busca + "%' OR "
+                    + "p.direccion LIKE'" + busca + "%' OR p.telefono LIKE'" + busca + "%' OR u.tipoUsuario LIKE'" + busca + "%' OR u.user LIKE'" + busca + "%')ORDER BY p.idPersona;";
 
             String query = "SELECT * FROM personalautorizado WHERE (nombrePersonalAutorizado LIKE'" + busca + "%' OR "
                     + "apellidoPersonalAutorizado LIKE'" + busca + "%' OR dni LIKE'" + busca + "%' OR "
                     + "cargo LIKE'" + busca + "%' OR codigo LIKE'" + busca + "%') "
                     + "ORDER BY idPersonalAutorizado";
             Statement st = conexion.createStatement();
-            rs = st.executeQuery(query);
+            rs = st.executeQuery(query2);
             while (rs.next()) {
-                PersonalAutorizado personalAutorizado = new PersonalAutorizado();
-                personalAutorizado.setIdPersonalAutorizado(rs.getInt(1));
-                personalAutorizado.setNombrePersonalAutorizado(rs.getString(2));
-                personalAutorizado.setApellidoPersonalAutorizado(rs.getString(3));
-                personalAutorizado.setDNI(rs.getString(4));
-                personalAutorizado.setCargo(rs.getString(5));
-                personalAutorizado.setCodigo(rs.getString(6));
-                personalAutorizado.setEstado(rs.getString(7));
+                Usuario usuario = new Usuario();
+                usuario.setIdPersona(rs.getLong(1));
+                usuario.setNombre(rs.getString(2));
+                usuario.setApellida(rs.getString(3));
+                usuario.setDni(rs.getString(4));
+                usuario.setDireccion(rs.getString(5));
+                usuario.setTelefono(rs.getString(6));
+                usuario.setEmail(rs.getString(7));
+                usuario.setTipoUsuario(rs.getString(8));
+                usuario.setUser(rs.getString(9));
+                usuario.setPass(rs.getString(10));
+                usuario.setEstado(rs.getString(11));
 
-                aca.add(personalAutorizado);
+                aca.add(usuario);
             }
 
         } catch (Exception e) {

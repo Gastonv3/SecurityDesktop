@@ -17,12 +17,12 @@ public class Control {
     private Lugar lugar;
     private String latitud;
     private String longitud;
-    private Date fechaHora;
+    private String fechaHora;
 
     public Control() {
     }
 
-    public Control(Integer idControles, Usuario usuario, Lugar lugar, String latitud, String longitud, Date fechaHora) {
+    public Control(Integer idControles, Usuario usuario, Lugar lugar, String latitud, String longitud, String fechaHora) {
         this.idControles = idControles;
         this.usuario = usuario;
         this.lugar = lugar;
@@ -71,11 +71,11 @@ public class Control {
         this.longitud = longitud;
     }
 
-    public Date getFechaHora() {
+    public String getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(Date fechaHora) {
+    public void setFechaHora(String fechaHora) {
         this.fechaHora = fechaHora;
     }
     
