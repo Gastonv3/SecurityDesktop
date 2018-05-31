@@ -97,7 +97,7 @@ public class GestionControles extends javax.swing.JInternalFrame {
         jPanel19 = new javax.swing.JPanel();
         jlImagen = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         jPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -167,14 +167,14 @@ public class GestionControles extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1478, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1480, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -265,7 +265,7 @@ public class GestionControles extends javax.swing.JInternalFrame {
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE))
+                        .addComponent(jlNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE))
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -454,8 +454,12 @@ public class GestionControles extends javax.swing.JInternalFrame {
             jlApellido.setText(control.getUsuario().getApellida());
             jlLugar.setText(control.getLugar().getNombreLugar());
 
-            jlFecha.setText(control.getFechaHora());
-            //jTextArea1.setEnabled(false);
+            try {
+                jlFecha.setText(fecha.fdate(control.getFechaHora()));
+                //jTextArea1.setEnabled(false);
+            } catch (ParseException ex) {
+                Logger.getLogger(GestionControles.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
     }//GEN-LAST:event_jtLugaresMouseClicked
@@ -557,7 +561,6 @@ public class GestionControles extends javax.swing.JInternalFrame {
                 //jtabla2.setModel(grillaLugar);
                 jtLugares.setModel(grillaControl);
 
-                JOptionPane.showConfirmDialog(null, b);
             } catch (ParseException ex) {
                 AlertaError alertaError = new AlertaError(new JFrame(), true);
                 alertaError.jlError.setText("Fecha Incorrecta");

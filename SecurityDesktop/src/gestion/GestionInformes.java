@@ -5,54 +5,91 @@
  */
 package gestion;
 
-import alertas.AlertaConfirmar;
 import alertas.AlertaError;
+import com.mysql.jdbc.Connection;
+import controladores.InformeControl;
 import controladores.LugarControlador;
+import static gestion.ABMLugares.comprimirImagen;
+import grillas.GrillaControl;
+import grillas.GrillaInforme;
 import grillas.GrillaLugar;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import objetos.Control;
+import objetos.Informe;
 import objetos.Lugar;
+import util.conexion;
+import util.fecha;
 
 /**
  *
  * @author Skylake
  */
-public class GestionLugares extends javax.swing.JInternalFrame {
+public class GestionInformes extends javax.swing.JInternalFrame {
 
-    private GrillaLugar grillaLugar;
-    private LugarControlador controlador = new LugarControlador();
-    private Lugar lugar;
-    private List<Lugar> list;
+    private GrillaInforme grillaInforme;
+    private InformeControl controlador = new InformeControl();
+    private Informe informe;
+    private List<Informe> list;
 
     /**
-     * Creates new form GestionLugares
+     * Creates new form GestionInformes
      */
-    public GestionLugares() throws SQLException {
-
+    public GestionInformes() throws SQLException {
         initComponents();
         ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-        //ActualizarTabla();
         ActualizarTabla();
+        jlImagen4.setVisible(false);
     }
 
     public void ActualizarTabla() throws SQLException {
-        List<Lugar> ca = controlador.extraertodo();
+        List<Informe> ca = controlador.extraertodo();
         try {
-            grillaLugar = new GrillaLugar((ArrayList<Lugar>) ca);
+            grillaInforme = new GrillaInforme((ArrayList<Informe>) ca);
             //jtabla2.setModel(grillaLugar);
-            jtLugares.setModel(grillaLugar);
+            jtLugares.setModel(grillaInforme);
         } catch (Exception e) {
         }
     }
@@ -78,19 +115,21 @@ public class GestionLugares extends javax.swing.JInternalFrame {
         jbEliminar = new rojeru_san.RSButtonRiple();
         jtfBuscar = new rscomponentshade.RSTextFieldShade();
         jPanel18 = new javax.swing.JPanel();
-        rSPanelShadow1 = new rojeru_san.RSPanelShadow();
-        jPanel19 = new javax.swing.JPanel();
-        jlImagen = new javax.swing.JLabel();
         rSPanelShadow2 = new rojeru_san.RSPanelShadow();
         jPanel20 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jlLugar = new javax.swing.JLabel();
+        jlGuardia = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jlEmail = new javax.swing.JLabel();
-        jlUbicacion = new javax.swing.JLabel();
-        jlEstado = new javax.swing.JLabel();
+        jlFecha = new javax.swing.JLabel();
+        jlLugar = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jlInforme = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
+        rSPanelShadow6 = new rojeru_san.RSPanelShadow();
+        rotador = new javax.swing.JPanel();
+        jlImagen4 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
@@ -165,14 +204,14 @@ public class GestionLugares extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
 
         jbModificar.setBackground(new java.awt.Color(245, 124, 0));
-        jbModificar.setText("MODIFICAR");
+        jbModificar.setText("BUSCAR");
         jbModificar.setColorHover(new java.awt.Color(255, 152, 0));
         jbModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,7 +229,7 @@ public class GestionLugares extends javax.swing.JInternalFrame {
         });
 
         jbEliminar.setBackground(new java.awt.Color(245, 124, 0));
-        jbEliminar.setText("ELIMINAR");
+        jbEliminar.setText("DESCARGAR IMAGEN");
         jbEliminar.setColorHover(new java.awt.Color(255, 152, 0));
         jbEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +238,7 @@ public class GestionLugares extends javax.swing.JInternalFrame {
         });
 
         jtfBuscar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jtfBuscar.setPlaceholder("BUSCAR POR NOMBRE");
+        jtfBuscar.setPlaceholder("BUSCAR");
         jtfBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfBuscarKeyReleased(evt);
@@ -213,12 +252,12 @@ public class GestionLugares extends javax.swing.JInternalFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jtfBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtfBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -232,44 +271,32 @@ public class GestionLugares extends javax.swing.JInternalFrame {
 
         jPanel18.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
-
-        jlImagen.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-        );
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-        );
-
-        rSPanelShadow1.add(jPanel19, java.awt.BorderLayout.CENTER);
-
         jPanel20.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setText("LUGAR:");
+        jLabel2.setText("GUARDIA:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("UBICACIÓN:");
+        jLabel3.setText("LUGAR:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setText("EMAIL:");
+        jLabel4.setText("FECHA:");
+
+        jlGuardia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel6.setText("INFORME:");
+
+        jlFecha.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
         jlLugar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel6.setText("ESTADO:");
-
-        jlEmail.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-
-        jlUbicacion.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-
-        jlEstado.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlInforme.setEditable(false);
+        jlInforme.setColumns(20);
+        jlInforme.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlInforme.setRows(5);
+        jlInforme.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        jScrollPane2.setViewportView(jlInforme);
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -281,19 +308,19 @@ public class GestionLugares extends javax.swing.JInternalFrame {
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlLugar, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE))
+                        .addComponent(jlGuardia, javax.swing.GroupLayout.DEFAULT_SIZE, 927, Short.MAX_VALUE))
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jlLugar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jlFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)))
                 .addContainerGap())
         );
         jPanel20Layout.setVerticalGroup(
@@ -302,20 +329,20 @@ public class GestionLugares extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlGuardia, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         rSPanelShadow2.add(jPanel20, java.awt.BorderLayout.CENTER);
@@ -324,15 +351,43 @@ public class GestionLugares extends javax.swing.JInternalFrame {
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addComponent(rSPanelShadow1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rSPanelShadow2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addComponent(rSPanelShadow2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(rSPanelShadow2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(rSPanelShadow1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        rotador.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlImagen4.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout rotadorLayout = new javax.swing.GroupLayout(rotador);
+        rotador.setLayout(rotadorLayout);
+        rotadorLayout.setHorizontalGroup(
+            rotadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlImagen4, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+        );
+        rotadorLayout.setVerticalGroup(
+            rotadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlImagen4, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+        );
+
+        rSPanelShadow6.add(rotador, java.awt.BorderLayout.CENTER);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(rSPanelShadow6, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(rSPanelShadow6, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
@@ -341,17 +396,24 @@ public class GestionLugares extends javax.swing.JInternalFrame {
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelLayout.createSequentialGroup()
+                        .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -375,11 +437,13 @@ public class GestionLugares extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbCerrar13ActionPerformed
 
     private void jtLugaresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtLugaresMouseClicked
+        rotador.removeAll();
+        rotador.repaint();
         if (jtLugares.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA EN LA TABLA", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
-            lugar = grillaLugar.getLugar(jtLugares.getSelectedRow());
-            byte[] blob = lugar.getImagen();
+            informe = grillaInforme.getLugar(jtLugares.getSelectedRow());
+            byte[] blob = informe.getImagen();
             {
                 BufferedImage img = null;
                 InputStream in = new ByteArrayInputStream(blob);
@@ -388,27 +452,141 @@ public class GestionLugares extends javax.swing.JInternalFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(GestionLugares.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Image newimage = img.getScaledInstance(jlImagen.getWidth(), jlImagen.getHeight(), Image.SCALE_SMOOTH);
+                //   rotador.removeAll();
+                JLabel jLabel = new JLabel();
+                jLabel.setSize(rotador.getWidth(), rotador.getHeight());
+                jLabel.setVisible(true);
+                Image newimage = img.getScaledInstance(rotador.getWidth(), rotador.getHeight(), Image.SCALE_SMOOTH);
+                rotador.add(jLabel);
                 ImageIcon icon = new ImageIcon(newimage);
+                // rotador.add(jLabel);
                 // JLabel jlabel = new JLabel(lugar.getNombreLugar());
-                jlImagen.setIcon(icon);
+                jLabel.setIcon(icon);
+
                 //jlNombreLugar.setSize(jlNombreLugar.getPreferredSize());
                 // jlNombreLugar.setText(lugar.getNombreLugar());
-                jlLugar.setText(lugar.getNombreLugar());
+                jlGuardia.setText(informe.getControl().getUsuario().getNombre() + " " + informe.getControl().getUsuario().getApellida());
                 //jlNombreLugar.setText(lugar.getNombreLugar());
                 // jlNombreLugar.validate();
-                jlUbicacion.setText(lugar.getUbicacion());
-                jlEmail.setText(lugar.getEmail());
-                if (lugar.getEstado().equals("1")) {
-                    jlEstado.setText("ACTIVO");
-                } else {
-                    jlEstado.setText("INACTIVO");
+                jlLugar.setText(informe.getControl().getLugar().getNombreLugar());
+                try {
+                    jlFecha.setText(fecha.fdate(informe.getControl().getFechaHora()));
+                } catch (ParseException ex) {
+                    Logger.getLogger(GestionInformes.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+                jlInforme.setText(informe.getInforme());
+
                 //jTextArea1.setEnabled(false);
             }
         }
-
     }//GEN-LAST:event_jtLugaresMouseClicked
+
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+
+
+        /* try {
+            buscar();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionInformes.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    }//GEN-LAST:event_jbModificarActionPerformed
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+             
+      
+
+        try {
+            conexion mysql = new conexion();
+            java.sql.Connection conexion = mysql.conectar();
+            
+            JasperReport reporte = null;
+            String path = "D:\\Documentos\\NetBeansProjects\\SecurityDesktop\\SecurityDesktop\\src\\reportes\\informes.jasper";
+            
+            Map parametro = new HashMap();
+            parametro.put("id", 7);
+            
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, conexion);
+            
+            JasperViewer view = new JasperViewer(jprint, false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+            view.setVisible(true);
+            
+            
+            /* ABMLugares aBMLugares = new ABMLugares(new JFrame(), true);
+            aBMLugares.jlTitulo.setText("REGISTRAR NUEVO LUGAR");
+            aBMLugares.jbNuevo.setText("REGISTRAR");
+            aBMLugares.setVisible(true);*/
+            /* rotador.removeAll();
+            rotador.repaint();
+            if (jtLugares.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA EN LA TABLA", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+            informe = grillaInforme.getLugar(jtLugares.getSelectedRow());
+            byte[] blob = informe.getImagen();
+
+            BufferedImage img = null;
+            InputStream in = new ByteArrayInputStream(blob);
+            try {
+            img = ImageIO.read(in);
+            } catch (IOException ex) {
+            Logger.getLogger(GestionLugares.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Image newimage = img.getScaledInstance(rotador.getWidth(), rotador.getHeight(), Image.SCALE_SMOOTH);
+
+            ImageIcon icon = new ImageIcon(newimage);
+
+            JPanel panel = new JPanel();
+
+            panel.setLayout(new GridBagLayout());
+
+            JLabel label = new JLabel(icon) {
+            
+            protected void paintComponent(Graphics grafico) {
+            
+            Graphics2D graficoNuevo = (Graphics2D) grafico;
+            
+            graficoNuevo.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
+            );
+            
+            AffineTransform at = graficoNuevo.getTransform();
+            Shape figura = graficoNuevo.getClip();
+            
+            double X = getWidth() / 2.0;
+            double Y = getHeight() / 2.0;
+            
+            at.rotate(Math.toRadians(90), X, Y);
+            
+            graficoNuevo.setTransform(at);
+            graficoNuevo.setClip(figura);
+            
+            super.paintComponent(grafico);
+            }
+            
+            };
+            label.setSize(rotador.getWidth(), rotador.getHeight());
+            label.setVisible(true);
+            
+            panel.add(label);
+            panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            panel.setBackground(Color.WHITE);
+            panel.setSize(rotador.getWidth(), rotador.getHeight());
+
+            jlImagen4.setVisible(false);
+            rotador.add(panel);
+            rotador.revalidate();
+            //jTextArea1.setEnabled(false);
+            }*/
+        } catch (JRException ex) {
+            Logger.getLogger(GestionInformes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         if (this.jtLugares.getRowCount() < 1) {
@@ -421,138 +599,116 @@ public class GestionLugares extends javax.swing.JInternalFrame {
                 er.jlError.setText("SELECCIONA UN REGISTRO");
                 er.setVisible(true);
             } else {
-                lugar = grillaLugar.getLugar(jtLugares.getSelectedRow());
-                AlertaConfirmar alertaConfirmar = new AlertaConfirmar(new JFrame(), true);
-                alertaConfirmar.jlId.setText(String.valueOf(lugar.getIdLugares()));
-                alertaConfirmar.jlErrorPregunta.setText("¿ESTAS SEGURO?");
-                alertaConfirmar.jlErrorDescripcion.setText("SE BORRARÁ PERMANENTEMENTE");
-                alertaConfirmar.setVisible(true);
+                informe = grillaInforme.getLugar(jtLugares.getSelectedRow());
+                Random generadorNumero = new Random();
+                int numeroAleatorio = 1 + generadorNumero.nextInt(1000000);
+                JFileChooser archivo = new JFileChooser();
+                archivo.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                archivo.setApproveButtonText("Seleccionar");
+                archivo.setAcceptAllFileFilterUsed(false);
+                archivo.setDialogTitle("Seleccione destino");
+                int ventana = archivo.showOpenDialog(null);
+                byte[] blob = informe.getImagen();
+
+                if (ventana == JFileChooser.APPROVE_OPTION) {
+                    File di = archivo.getSelectedFile();
+                    String ruta = String.valueOf(di);
+                    try {
+                        FileOutputStream fos = new FileOutputStream(ruta + "\\" + numeroAleatorio + ".jpg");
+                        fos.write(blob);
+                        File id = new File(ruta + "\\" + numeroAleatorio + ".jpg");
+                        Desktop d = null;
+                        d = Desktop.getDesktop();
+                        d.open(id);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(GestionInformes.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GestionInformes.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    AlertaError er = new AlertaError(new JFrame(), true);
+                    er.jlError.setText("SELECCIONe UNA CARPETA");
+                    er.setVisible(true);
+                }
             }
         }
     }//GEN-LAST:event_jbEliminarActionPerformed
 
-    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-        ABMLugares aBMLugares = new ABMLugares(new JFrame(), true);
-        aBMLugares.jlTitulo.setText("REGISTRAR NUEVO LUGAR");
-        aBMLugares.jbNuevo.setText("REGISTRAR");
-        aBMLugares.setVisible(true);
-    }//GEN-LAST:event_jbNuevoActionPerformed
-
-    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        if (this.jtLugares.getRowCount() < 1) {
-            AlertaError er = new AlertaError(new JFrame(), true);
-            er.jlError.setText("LA TABLA ESTA VACÍA");
-            er.setVisible(true);
-        } else {
-            if (this.jtLugares.getSelectedRowCount() < 1) {
-                AlertaError er = new AlertaError(new JFrame(), true);
-                er.jlError.setText("SELECCIONA UN REGISTRO");
-                er.setVisible(true);
-            } else {
-                lugar = grillaLugar.getLugar(jtLugares.getSelectedRow());
-                byte[] blob = lugar.getImagen();
-                {
-                    BufferedImage img = null;
-                    InputStream in = new ByteArrayInputStream(blob);
-                    try {
-                        img = ImageIO.read(in);
-                    } catch (IOException ex) {
-                        Logger.getLogger(GestionLugares.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    ABMLugares aBMLugares = new ABMLugares(new JFrame(), true);
-                    Image newimage = img.getScaledInstance(aBMLugares.jlImagen.getWidth(), aBMLugares.jlImagen.getHeight(), Image.SCALE_SMOOTH);
-                    ImageIcon icon = new ImageIcon(newimage);
-                    aBMLugares.jlImagen.setIcon(icon);
-                    aBMLugares.jtfNombreLugar.setText(lugar.getNombreLugar());
-                    aBMLugares.jtfEmail.setText(lugar.getEmail());
-                    aBMLugares.jtfUbicacion.setText(lugar.getUbicacion());
-                    Integer id = lugar.getIdLugares();
-                    aBMLugares.jlId.setText(String.valueOf(id));
-                    if (lugar.getEstado().equals("1")) {
-                        aBMLugares.jrbActivo.setSelected(true);
-                    } else {
-                        aBMLugares.jrbInactivo.setSelected(false);
-
-                    }
-                    aBMLugares.jbLimpiar.setVisible(false);
-                    aBMLugares.jlTitulo.setText("MODIFICAR LUGAR");
-                    aBMLugares.jbNuevo.setText("MODIFICAR");
-                    aBMLugares.setVisible(true);
-                    /* // JLabel jlabel = new JLabel(lugar.getNombreLugar());
-                    jlImagen.setIcon(icon);
-                    //jlNombreLugar.setSize(jlNombreLugar.getPreferredSize());
-                    // jlNombreLugar.setText(lugar.getNombreLugar());
-                    jlLugar.setText(lugar.getNombreLugar());
-                    //jlNombreLugar.setText(lugar.getNombreLugar());
-                    // jlNombreLugar.validate();
-                    jlUbicacion.setText(lugar.getUbicacion());
-                    jlEmail.setText(lugar.getEmail());
-
-                    //jTextArea1.setEnabled(false);
-                     */
-                }
-                /* int fila = this.jtLugares.getSelectedRow();
-
-                ModalProductoM mp = new ModalProductoM(new JFrame(), true);
-                mp.id.setText(this.jtLugares.getValueAt(fila, 0).toString());
-                mp.nombre.setText(this.jtLugares.getValueAt(fila, 1).toString());
-                mp.descripcion.setText(this.tabla.getValueAt(fila, 2).toString());
-                mp.tipo.setSelectedItem(this.tabla.getValueAt(fila, 3).toString());
-                mp.precio.setText(this.tabla.getValueAt(fila, 4).toString());
-                mp.stock.setText(this.tabla.getValueAt(fila, 5).toString());
-                mp.titulo.setText("MODIFICAR");
-                mp.registrar.setText("GUARDAR");
-                mp.setVisible(true);*/
-            }
-        }  // TODO add your handling code here:
-    }//GEN-LAST:event_jbModificarActionPerformed
-
     private void jtfBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBuscarKeyReleased
 
-        buscar();
-
     }//GEN-LAST:event_jtfBuscarKeyReleased
-    public void buscar() {
-        List<Lugar> ca = null;
-        try {
-            String variable = "";
-            variable = jtfBuscar.getText();
+
+    public void buscar() throws SQLException {
+        List<Informe> ca = null;
+        String variable = jtfBuscar.getText();
+        if (!variable.isEmpty() && Character.isDigit(variable.charAt(0))) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+                Date a = sdf.parse(variable);
+                SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd");
+                String b = fmtOut.format(a);
+
+                ca = controlador.buscarfecha(b);
+
+                grillaInforme = new GrillaInforme((ArrayList<Informe>) ca);
+                //jtabla2.setModel(grillaLugar);
+                jtLugares.setModel(grillaInforme);
+
+            } catch (ParseException ex) {
+                AlertaError alertaError = new AlertaError(new JFrame(), true);
+                alertaError.jlError.setText("Fecha Incorrecta");
+                alertaError.setVisible(true);
+                Logger.getLogger(GestionControles.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
             ca = controlador.buscar(variable);
-        } catch (SQLException ex) {
-            Logger.getLogger(GestionLugares.class.getName()).log(Level.SEVERE, null, ex);
+
+            grillaInforme = new GrillaInforme((ArrayList<Informe>) ca);
+            //jtabla2.setModel(grillaLugar);
+            jtLugares.setModel(grillaInforme);
+
         }
-
-        grillaLugar = new GrillaLugar((ArrayList<Lugar>) ca);
-        //jtabla2.setModel(grillaLugar);
-        jtLugares.setModel(grillaLugar);
-
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private rojeru_san.RSButtonRiple jbCerrar13;
     private rojeru_san.RSButtonRiple jbEliminar;
     private rojeru_san.RSButtonRiple jbModificar;
     private rojeru_san.RSButtonRiple jbNuevo;
-    private javax.swing.JLabel jlEmail;
-    private javax.swing.JLabel jlEstado;
+    private javax.swing.JLabel jlFecha;
+    private javax.swing.JLabel jlGuardia;
     private javax.swing.JLabel jlImagen;
+    private javax.swing.JLabel jlImagen1;
+    private javax.swing.JLabel jlImagen2;
+    private javax.swing.JLabel jlImagen3;
+    private javax.swing.JLabel jlImagen4;
+    private javax.swing.JTextArea jlInforme;
     private javax.swing.JLabel jlLugar;
-    private javax.swing.JLabel jlUbicacion;
     public rojerusan.RSTableMetro jtLugares;
     private rscomponentshade.RSTextFieldShade jtfBuscar;
     private rojeru_san.RSPanelShadow rSPanelShadow1;
     private rojeru_san.RSPanelShadow rSPanelShadow2;
+    private rojeru_san.RSPanelShadow rSPanelShadow3;
+    private rojeru_san.RSPanelShadow rSPanelShadow4;
+    private rojeru_san.RSPanelShadow rSPanelShadow5;
+    private rojeru_san.RSPanelShadow rSPanelShadow6;
+    private javax.swing.JPanel rotador;
     // End of variables declaration//GEN-END:variables
 }

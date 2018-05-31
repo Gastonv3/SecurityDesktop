@@ -22,6 +22,7 @@ public class Login extends javax.swing.JFrame {
 
         this.setLocationRelativeTo(this);
         AWTUtilities.setWindowOpaque(this, false);
+        
     }
 
     /**
@@ -35,14 +36,15 @@ public class Login extends javax.swing.JFrame {
 
         rSPanelShadow1 = new rojeru_san.RSPanelShadow();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jlLogo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         rSPanelShadow3 = new rojeru_san.RSPanelShadow();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         rSButtonRiple1 = new rojeru_san.RSButtonRiple();
-        rSButtonRiple2 = new rojeru_san.RSButtonRiple();
         rSMPassView1 = new rojeru_san.RSMPassView();
         rSMTextFull1 = new rojeru_san.RSMTextFull();
+        rSButtonRiple2 = new rojeru_san.RSButtonRiple();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -51,28 +53,39 @@ public class Login extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jlLogo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.png"))); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("VERSION 1.0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(105, 105, 105)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addContainerGap())
         );
 
         rSPanelShadow1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(rSPanelShadow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
 
-        jPanel3.setBackground(new java.awt.Color(245, 124, 0));
+        jPanel3.setBackground(new java.awt.Color(0, 65, 75));
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium Cond", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -89,11 +102,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        rSButtonRiple2.setBackground(new java.awt.Color(255, 255, 255));
-        rSButtonRiple2.setColorHover(new java.awt.Color(255, 152, 0));
-        rSButtonRiple2.setColorText(new java.awt.Color(245, 124, 0));
-        rSButtonRiple2.setLabel("ENTRAR");
-
         rSMPassView1.setForeground(new java.awt.Color(245, 124, 0));
         rSMPassView1.setBordeColorFocus(new java.awt.Color(245, 124, 0));
         rSMPassView1.setBotonColor(new java.awt.Color(245, 124, 0));
@@ -102,47 +110,57 @@ public class Login extends javax.swing.JFrame {
         rSMTextFull1.setForeground(new java.awt.Color(245, 124, 0));
         rSMTextFull1.setBordeColorFocus(new java.awt.Color(245, 124, 0));
         rSMTextFull1.setBotonColor(new java.awt.Color(245, 124, 0));
+        rSMTextFull1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         rSMTextFull1.setPlaceholder("USUARIO");
+        rSMTextFull1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMTextFull1ActionPerformed(evt);
+            }
+        });
+
+        rSButtonRiple2.setBackground(new java.awt.Color(255, 255, 255));
+        rSButtonRiple2.setColorHover(new java.awt.Color(255, 152, 0));
+        rSButtonRiple2.setColorText(new java.awt.Color(245, 124, 0));
+        rSButtonRiple2.setLabel("ENTRAR");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(447, Short.MAX_VALUE)
+                .addContainerGap(420, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(rSButtonRiple1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(rSButtonRiple2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(30, 30, 30))
-                            .addComponent(rSMPassView1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(rSMTextFull1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(113, 113, 113))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(rSMTextFull1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rSMPassView1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rSButtonRiple2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(70, 70, 70))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rSButtonRiple1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(45, 45, 45)
+                .addGap(60, 60, 60)
                 .addComponent(rSMTextFull1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addGap(18, 18, 18)
                 .addComponent(rSMPassView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rSButtonRiple2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         rSPanelShadow3.add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(rSPanelShadow3, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 40, 770, 430));
+        getContentPane().add(rSPanelShadow3, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 40, 700, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -150,6 +168,10 @@ public class Login extends javax.swing.JFrame {
     private void rSButtonRiple1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonRiple1ActionPerformed
         dispose();
     }//GEN-LAST:event_rSButtonRiple1ActionPerformed
+
+    private void rSMTextFull1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMTextFull1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rSMTextFull1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,9 +210,10 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jlLogo;
     private rojeru_san.RSButtonRiple rSButtonRiple1;
     private rojeru_san.RSButtonRiple rSButtonRiple2;
     private rojeru_san.RSMPassView rSMPassView1;

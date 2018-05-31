@@ -280,6 +280,9 @@
                           <Color blue="0" green="7c" red="f5" type="rgb"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbLugares3ActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="rojeru_san.RSButtonRiple" name="jbControles">
                       <Properties>

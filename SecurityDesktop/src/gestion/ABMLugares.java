@@ -406,7 +406,7 @@ public class ABMLugares extends javax.swing.JDialog implements IABM {
         //Creamos nuestra variable archivo en la cual podremos usar todos los metodos de la clase jFileChooser
         JFileChooser archivo = new JFileChooser();
         //Si deseamos crear filtros para la selecion de archivos
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Formatos de Archivos JPEG(*.JPG;*.JPEG;*PNG)", "jpg", "jpeg", "png");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Formatos de Archivos JPEG(*.JPG;*.JPEG)", "jpg", "jpeg");
         //Si deseas que se muestre primero los filtros usa la linea q esta abajo de esta.
         //archivo.setFileFilter(filtro);
         // Agregamos el Filtro pero cuidado se mostrara despues de todos los archivos

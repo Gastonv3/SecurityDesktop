@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e43673e7-6484-4f3a-9190-3eb0b70058de">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="143"/>
+	<parameter name="id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     CONCAT(personas.`nombre`,' ',personas.`apellido`) AS guardia,
+     lugares.`nombreLugar` AS lugares_nombreLugar,
+     informes.`informe` AS informes_informe,
+     controles.`fechaHora` AS controles_fechaHora,
+     informes.`idInformes` AS informes_idInformes,
+     informes.`imagenInforme` AS informes_imagenInforme
+FROM
+     `lugares` lugares INNER JOIN `controles` controles ON lugares.`idLugares` = controles.`idLugares`
+     INNER JOIN `informes` informes ON controles.`idControles` = informes.`idControl`
+     INNER JOIN `usuarios` usuarios ON controles.`idGuardia` = usuarios.`idpersona`
+     INNER JOIN `personas` personas ON usuarios.`idpersona` = personas.`idPersona`
+WHERE
+     informes.`idInformes` = $P!{id}]]>
+	</queryString>
+	<field name="guardia" class="java.lang.String"/>
+	<field name="lugares_nombreLugar" class="java.lang.String"/>
+	<field name="informes_informe" class="java.lang.String"/>
+	<field name="controles_fechaHora" class="java.sql.Timestamp"/>
+	<field name="informes_idInformes" class="java.lang.Integer"/>
+	<field name="informes_imagenInforme" class="java.io.InputStream"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="225" y="0" width="133" height="30" uuid="f5139862-f987-4d58-9f74-65a6c338ba01"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECURITY]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="416" y="0" width="139" height="20" uuid="cd8bd6bd-227d-4673-8d33-387412a3a58a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="84" height="79" uuid="56455503-c457-4d57-a318-4225cb6edbea"/>
+				<imageExpression><![CDATA["D:\\Escritorio\\reporte.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="238" y="37" width="100" height="20" uuid="fdf43162-eb2b-4a77-b3e3-fa3851490184"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="6a4aa829-fbb8-4498-b090-33876fc2ddf5"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="15" width="84" height="20" uuid="ae0a8fb3-f5dd-44f4-b888-2bd926b3e9be"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="84" y="34" width="387" height="1" uuid="b664e123-521b-45a4-a3c3-112e81386884"/>
+			</line>
+			<textField>
+				<reportElement x="84" y="15" width="400" height="20" uuid="ec6d7726-ecee-4e0c-a093-10d67d902d9b"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugares_nombreLugar}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="21" width="84" height="20" uuid="6e2f20ef-4a0e-4482-b765-56f57e4ff9e5"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Guardia:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="84" y="41" width="387" height="1" uuid="d98947f9-5e03-4386-a1cb-fb6eb4f8c60a"/>
+			</line>
+			<textField>
+				<reportElement x="84" y="21" width="387" height="20" uuid="1eac606a-f4d1-4f03-82ce-9c53310111dd"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{guardia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="407" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="84" height="20" uuid="3530876c-2e84-4d3e-ace1-ddfae00e055b"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="84" y="0" width="387" height="80" uuid="f0f94033-cfad-437b-90bc-0042b0db9545"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{informes_informe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="139" width="84" height="20" uuid="9ec5dcd1-4137-445e-956a-cce16ea9ff37"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Imagen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="99" width="84" height="20" uuid="42817cfc-86c8-49be-8415-5fe92b059a3e"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="84" y="118" width="387" height="1" uuid="2884ebe0-2246-4b07-93d6-f3e82c1727e4"/>
+			</line>
+			<textField>
+				<reportElement x="84" y="99" width="387" height="20" uuid="48d9d2a9-e71f-4f72-9143-02deed315664"/>
+				<textElement>
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{controles_fechaHora}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="84" y="139" width="332" height="268" uuid="2ef4699b-0fe5-4f57-933b-e5132eba5eaf"/>
+				<imageExpression><![CDATA[$F{informes_imagenInforme}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="208" y="34" width="80" height="20" uuid="b32f346d-d8e6-4511-941a-047af17cf9f5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="288" y="34" width="40" height="20" uuid="d72bb2fc-c0e1-493d-99cb-4bb875776026"/>
+				<textElement>
+					<font fontName="Tahoma" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -7,6 +7,7 @@ package principal;
 
 import com.sun.awt.AWTUtilities;
 import gestion.GestionControles;
+import gestion.GestionInformes;
 import gestion.GestionLugar;
 import gestion.GestionLugares;
 import gestion.GestionLugares;
@@ -33,6 +34,7 @@ public class Principal extends javax.swing.JFrame {
     public GestionPersonalAutorizado gestionPersonalAutorizado = null;
     public GestionUsuarios gestionUsuario = null;
     public GestionControles gestionControles = null;
+    public GestionInformes gestionInformes = null;
     public static boolean estacerrado(Object obj) {
         JInternalFrame[] activos = escritorio.getAllFrames();
         boolean cerrado = true;
@@ -170,6 +172,11 @@ public class Principal extends javax.swing.JFrame {
         jbLugares3.setText("LUGARES");
         jbLugares3.setColorHover(new java.awt.Color(255, 152, 0));
         jbLugares3.setColorText(new java.awt.Color(245, 124, 0));
+        jbLugares3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLugares3ActionPerformed(evt);
+            }
+        });
 
         jbControles.setBackground(new java.awt.Color(255, 255, 255));
         jbControles.setText("CONTROLES");
@@ -297,7 +304,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jbLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLugaresActionPerformed
         if (estacerrado(gestionLugares)) {
-             try {
+            try {
                 gestionLugares = new GestionLugares(); // TODO add your handling code here:
                 int width = escritorio.getWidth();
                 int Height = escritorio.getHeight();
@@ -325,8 +332,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCerrarActionPerformed
 
     private void jbPersonalAutorizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPersonalAutorizadoActionPerformed
-               if (estacerrado(gestionPersonalAutorizado)) {
-             try {
+        if (estacerrado(gestionPersonalAutorizado)) {
+            try {
                 gestionPersonalAutorizado = new GestionPersonalAutorizado(); // TODO add your handling code here:
                 int width = escritorio.getWidth();
                 int Height = escritorio.getHeight();
@@ -340,8 +347,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jbPersonalAutorizadoActionPerformed
 
     private void jblUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jblUsuarioActionPerformed
-                   if (estacerrado(gestionUsuario)) {
-             try {
+        if (estacerrado(gestionUsuario)) {
+            try {
                 gestionUsuario = new GestionUsuarios(); // TODO add your handling code here:
                 int width = escritorio.getWidth();
                 int Height = escritorio.getHeight();
@@ -355,8 +362,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jblUsuarioActionPerformed
 
     private void jbControlesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbControlesActionPerformed
-                         if (estacerrado(gestionControles)) {
-             try {
+        if (estacerrado(gestionControles)) {
+            try {
                 gestionControles = new GestionControles(); // TODO add your handling code here:
                 int width = escritorio.getWidth();
                 int Height = escritorio.getHeight();
@@ -369,6 +376,21 @@ public class Principal extends javax.swing.JFrame {
         }   // TODO add your handling code here:
     }//GEN-LAST:event_jbControlesActionPerformed
 
+    private void jbLugares3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLugares3ActionPerformed
+        if (estacerrado(gestionInformes)) {
+            try {
+                gestionInformes = new GestionInformes(); // TODO add your handling code here:
+                int width = escritorio.getWidth();
+                int Height = escritorio.getHeight();
+                gestionInformes.setSize(width, Height);
+                escritorio.add(gestionInformes);
+                gestionInformes.show();
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
+    }//GEN-LAST:event_jbLugares3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -378,7 +400,7 @@ public class Principal extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-         try {
+        try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             /*  for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
