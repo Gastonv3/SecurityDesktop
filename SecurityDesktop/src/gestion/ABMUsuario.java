@@ -5,10 +5,12 @@
  */
 package gestion;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import alertas.AlertaCorrecto;
 import alertas.AlertaError;
 import controladores.PersonalAutorizadoControl;
 import controladores.UsuarioControlador;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,6 +40,9 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
         setUndecorated(true);
         initComponents();
         this.jlId.setVisible(true);
+        RestrictedTextField field = new RestrictedTextField(jtfDni);
+        field.setLimit(8);
+
         setLocationRelativeTo(null);
     }
 
@@ -64,7 +69,6 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
         jrbActivo = new javax.swing.JRadioButton();
         jrbInactivo = new javax.swing.JRadioButton();
         jtApellido = new rscomponentshade.RSFormatFieldShade();
-        jtfDni = new rscomponentshade.RSFormatFieldShade();
         jbNuevo = new rojeru_san.RSButtonRiple();
         jbLimpiar = new rojeru_san.RSButtonRiple();
         jtfNombre = new rscomponentshade.RSTextFieldShade();
@@ -80,6 +84,7 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
         jrbAdministrador = new javax.swing.JRadioButton();
         jrbGuardia = new javax.swing.JRadioButton();
         jrbSupervisor = new javax.swing.JRadioButton();
+        jtfDni = new rscomponentshade.RSTextFieldShade();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -176,14 +181,6 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
             }
         });
 
-        jtfDni.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jtfDni.setPlaceholder("DNI");
-        jtfDni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfDniActionPerformed(evt);
-            }
-        });
-
         jbNuevo.setBackground(new java.awt.Color(245, 124, 0));
         jbNuevo.setText("REGISTRAR");
         jbNuevo.setColorHover(new java.awt.Color(255, 152, 0));
@@ -214,6 +211,11 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
 
         jtfEmail.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jtfEmail.setPlaceholder("EMAIL");
+        jtfEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfEmailKeyTyped(evt);
+            }
+        });
 
         jtfUser.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jtfUser.setPlaceholder("USER");
@@ -308,6 +310,14 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
 
         rSPanelShadow3.add(jPanel5, java.awt.BorderLayout.CENTER);
 
+        jtfDni.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jtfDni.setPlaceholder("DNI");
+        jtfDni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDniKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -326,13 +336,13 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
                         .addComponent(rSPanelShadow3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jtfTelefono, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtApellido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfDni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbNuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtApellido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtfDni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jbLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jtfPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -353,13 +363,13 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
                     .addComponent(jtfUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jtfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jtfDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rSPanelShadow2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rSPanelShadow3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -417,10 +427,6 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
     private void jtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtApellidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtApellidoActionPerformed
-
-    private void jtfDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDniActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfDniActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         if (comprobarErrores() == IABM.error) {
@@ -488,6 +494,19 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfNombreActionPerformed
 
+    private void jtfEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfEmailKeyTyped
+ 
+
+    }//GEN-LAST:event_jtfEmailKeyTyped
+
+    private void jtfDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDniKeyTyped
+        char num = evt.getKeyChar();
+        if ((num < '0' || num > '9')) {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_jtfDniKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -552,7 +571,7 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
     public javax.swing.JRadioButton jrbSupervisor;
     public rscomponentshade.RSFormatFieldShade jtApellido;
     public rscomponentshade.RSFormatFieldShade jtfDireccion;
-    public rscomponentshade.RSFormatFieldShade jtfDni;
+    public rscomponentshade.RSTextFieldShade jtfDni;
     public rscomponentshade.RSTextFieldShade jtfEmail;
     public rscomponentshade.RSTextFieldShade jtfNombre;
     public rscomponentshade.RSFormatFieldShade jtfPass;
@@ -651,7 +670,7 @@ public class ABMUsuario extends javax.swing.JDialog implements IABM {
     @Override
     public int comprobarErrores() {
         if (jtfNombre.getText().trim().isEmpty() || jtApellido.getText().trim().isEmpty() || jtfDni.getText().trim().isEmpty()
-            || jtfDireccion.getText().trim().isEmpty() || jtfEmail.getText().trim().isEmpty() || jtfPass.getText().trim().isEmpty()
+                || jtfDireccion.getText().trim().isEmpty() || jtfEmail.getText().trim().isEmpty() || jtfPass.getText().trim().isEmpty()
                 || jtfUser.getText().trim().isEmpty() || jtfTelefono.getText().trim().isEmpty()) {
             return IABM.error;
         }

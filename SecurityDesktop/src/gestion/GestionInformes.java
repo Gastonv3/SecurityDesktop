@@ -6,6 +6,7 @@
 package gestion;
 
 import alertas.AlertaError;
+import alertas.Cargando;
 import com.mysql.jdbc.Connection;
 import controladores.InformeControl;
 import controladores.LugarControlador;
@@ -52,6 +53,7 @@ import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -60,6 +62,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import objetos.Control;
 import objetos.Informe;
 import objetos.Lugar;
+import rojerusan.componentes.RSProgressCircleAnimated;
 import util.conexion;
 import util.fecha;
 
@@ -103,7 +106,7 @@ public class GestionInformes extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel = new javax.swing.JPanel();
+        jpadre = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jbCerrar13 = new rojeru_san.RSButtonRiple();
         jPanel2 = new javax.swing.JPanel();
@@ -111,7 +114,7 @@ public class GestionInformes extends javax.swing.JInternalFrame {
         jtLugares = new rojerusan.RSTableMetro();
         jPanel17 = new javax.swing.JPanel();
         jbModificar = new rojeru_san.RSButtonRiple();
-        jbNuevo = new rojeru_san.RSButtonRiple();
+        jbReporte = new rojeru_san.RSButtonRiple();
         jbEliminar = new rojeru_san.RSButtonRiple();
         jtfBuscar = new rscomponentshade.RSTextFieldShade();
         jPanel18 = new javax.swing.JPanel();
@@ -133,7 +136,7 @@ public class GestionInformes extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        jPanel.setBackground(new java.awt.Color(255, 255, 255));
+        jpadre.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel16.setBackground(new java.awt.Color(245, 124, 0));
 
@@ -219,12 +222,12 @@ public class GestionInformes extends javax.swing.JInternalFrame {
             }
         });
 
-        jbNuevo.setBackground(new java.awt.Color(245, 124, 0));
-        jbNuevo.setText("NUEVO");
-        jbNuevo.setColorHover(new java.awt.Color(255, 152, 0));
-        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+        jbReporte.setBackground(new java.awt.Color(245, 124, 0));
+        jbReporte.setText("REPORTES");
+        jbReporte.setColorHover(new java.awt.Color(255, 152, 0));
+        jbReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbNuevoActionPerformed(evt);
+                jbReporteActionPerformed(evt);
             }
         });
 
@@ -251,9 +254,9 @@ public class GestionInformes extends javax.swing.JInternalFrame {
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtfBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -263,7 +266,7 @@ public class GestionInformes extends javax.swing.JInternalFrame {
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jbModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jtfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -308,7 +311,7 @@ public class GestionInformes extends javax.swing.JInternalFrame {
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlGuardia, javax.swing.GroupLayout.DEFAULT_SIZE, 927, Short.MAX_VALUE))
+                        .addComponent(jlGuardia, javax.swing.GroupLayout.DEFAULT_SIZE, 652, Short.MAX_VALUE))
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -390,26 +393,26 @@ public class GestionInformes extends javax.swing.JInternalFrame {
                 .addComponent(rSPanelShadow6, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
-        jPanel.setLayout(jPanelLayout);
-        jPanelLayout.setHorizontalGroup(
-            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jpadreLayout = new javax.swing.GroupLayout(jpadre);
+        jpadre.setLayout(jpadreLayout);
+        jpadreLayout.setHorizontalGroup(
+            jpadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanelLayout.createSequentialGroup()
+            .addGroup(jpadreLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jpadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        jPanelLayout.setVerticalGroup(
-            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelLayout.createSequentialGroup()
+        jpadreLayout.setVerticalGroup(
+            jpadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpadreLayout.createSequentialGroup()
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanelLayout.createSequentialGroup()
+                .addGroup(jpadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jpadreLayout.createSequentialGroup()
                         .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -422,11 +425,11 @@ public class GestionInformes extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpadre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpadre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -457,6 +460,7 @@ public class GestionInformes extends javax.swing.JInternalFrame {
                 jLabel.setSize(rotador.getWidth(), rotador.getHeight());
                 jLabel.setVisible(true);
                 Image newimage = img.getScaledInstance(rotador.getWidth(), rotador.getHeight(), Image.SCALE_SMOOTH);
+                
                 rotador.add(jLabel);
                 ImageIcon icon = new ImageIcon(newimage);
                 // rotador.add(jLabel);
@@ -492,101 +496,46 @@ public class GestionInformes extends javax.swing.JInternalFrame {
         }*/
     }//GEN-LAST:event_jbModificarActionPerformed
 
-    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-             
-      
-
+    private void jbReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbReporteActionPerformed
+        boolean estado = false;
+          /* RSProgressCircleAnimated animated = new RSProgressCircleAnimated();
+           animated.setSize(100, 100);
+            animated.setVisible(true);
+            animated.setLocation(jpadre.getWidth()/2,jpadre.getHeight()/2);
+            
+            jpadre.add(animated,0);*/
         try {
             conexion mysql = new conexion();
             java.sql.Connection conexion = mysql.conectar();
-            
+
             JasperReport reporte = null;
             String path = "D:\\Documentos\\NetBeansProjects\\SecurityDesktop\\SecurityDesktop\\src\\reportes\\informes.jasper";
-            
+
             Map parametro = new HashMap();
-            parametro.put("id", 7);
-            
+            parametro.put("idinforme", 7);
+
             reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
-            
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, conexion);
-            
-            JasperViewer view = new JasperViewer(jprint, false);
-            
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-            view.setVisible(true);
-            
-            
-            /* ABMLugares aBMLugares = new ABMLugares(new JFrame(), true);
-            aBMLugares.jlTitulo.setText("REGISTRAR NUEVO LUGAR");
-            aBMLugares.jbNuevo.setText("REGISTRAR");
-            aBMLugares.setVisible(true);*/
-            /* rotador.removeAll();
-            rotador.repaint();
-            if (jtLugares.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA EN LA TABLA", "ERROR", JOptionPane.ERROR_MESSAGE);
+
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, conexion);
+            List<JRPrintPage> pages = jprint.getPages();
+
+            if (pages.size() == 0) {
+                AlertaError er = new AlertaError(new JFrame(), true);
+                er.jlError.setText("NO");
+                er.setVisible(true);
+       
             } else {
-            informe = grillaInforme.getLugar(jtLugares.getSelectedRow());
-            byte[] blob = informe.getImagen();
+                JasperViewer view = new JasperViewer(jprint, false);
 
-            BufferedImage img = null;
-            InputStream in = new ByteArrayInputStream(blob);
-            try {
-            img = ImageIO.read(in);
-            } catch (IOException ex) {
-            Logger.getLogger(GestionLugares.class.getName()).log(Level.SEVERE, null, ex);
+                view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+                view.setVisible(true);
             }
-            Image newimage = img.getScaledInstance(rotador.getWidth(), rotador.getHeight(), Image.SCALE_SMOOTH);
 
-            ImageIcon icon = new ImageIcon(newimage);
-
-            JPanel panel = new JPanel();
-
-            panel.setLayout(new GridBagLayout());
-
-            JLabel label = new JLabel(icon) {
-            
-            protected void paintComponent(Graphics grafico) {
-            
-            Graphics2D graficoNuevo = (Graphics2D) grafico;
-            
-            graficoNuevo.setRenderingHint(
-            RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON
-            );
-            
-            AffineTransform at = graficoNuevo.getTransform();
-            Shape figura = graficoNuevo.getClip();
-            
-            double X = getWidth() / 2.0;
-            double Y = getHeight() / 2.0;
-            
-            at.rotate(Math.toRadians(90), X, Y);
-            
-            graficoNuevo.setTransform(at);
-            graficoNuevo.setClip(figura);
-            
-            super.paintComponent(grafico);
-            }
-            
-            };
-            label.setSize(rotador.getWidth(), rotador.getHeight());
-            label.setVisible(true);
-            
-            panel.add(label);
-            panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-            panel.setBackground(Color.WHITE);
-            panel.setSize(rotador.getWidth(), rotador.getHeight());
-
-            jlImagen4.setVisible(false);
-            rotador.add(panel);
-            rotador.revalidate();
-            //jTextArea1.setEnabled(false);
-            }*/
         } catch (JRException ex) {
             Logger.getLogger(GestionInformes.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jbNuevoActionPerformed
+    }//GEN-LAST:event_jbReporteActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         if (this.jtLugares.getRowCount() < 1) {
@@ -675,39 +624,27 @@ public class GestionInformes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private rojeru_san.RSButtonRiple jbCerrar13;
     private rojeru_san.RSButtonRiple jbEliminar;
     private rojeru_san.RSButtonRiple jbModificar;
-    private rojeru_san.RSButtonRiple jbNuevo;
+    private rojeru_san.RSButtonRiple jbReporte;
     private javax.swing.JLabel jlFecha;
     private javax.swing.JLabel jlGuardia;
-    private javax.swing.JLabel jlImagen;
-    private javax.swing.JLabel jlImagen1;
-    private javax.swing.JLabel jlImagen2;
-    private javax.swing.JLabel jlImagen3;
     private javax.swing.JLabel jlImagen4;
     private javax.swing.JTextArea jlInforme;
     private javax.swing.JLabel jlLugar;
+    private javax.swing.JPanel jpadre;
     public rojerusan.RSTableMetro jtLugares;
     private rscomponentshade.RSTextFieldShade jtfBuscar;
-    private rojeru_san.RSPanelShadow rSPanelShadow1;
     private rojeru_san.RSPanelShadow rSPanelShadow2;
-    private rojeru_san.RSPanelShadow rSPanelShadow3;
-    private rojeru_san.RSPanelShadow rSPanelShadow4;
-    private rojeru_san.RSPanelShadow rSPanelShadow5;
     private rojeru_san.RSPanelShadow rSPanelShadow6;
     private javax.swing.JPanel rotador;
     // End of variables declaration//GEN-END:variables

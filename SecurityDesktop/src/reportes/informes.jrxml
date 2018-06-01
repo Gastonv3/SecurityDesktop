@@ -2,10 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e43673e7-6484-4f3a-9190-3eb0b70058de">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="143"/>
-	<parameter name="id" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
+	<property name="ireport.y" value="240"/>
 	<queryString>
 		<![CDATA[SELECT
      CONCAT(personas.`nombre`,' ',personas.`apellido`) AS guardia,
@@ -19,8 +16,7 @@ FROM
      INNER JOIN `informes` informes ON controles.`idControles` = informes.`idControl`
      INNER JOIN `usuarios` usuarios ON controles.`idGuardia` = usuarios.`idpersona`
      INNER JOIN `personas` personas ON usuarios.`idpersona` = personas.`idPersona`
-WHERE
-     informes.`idInformes` = $P!{id}]]>
+]]>
 	</queryString>
 	<field name="guardia" class="java.lang.String"/>
 	<field name="lugares_nombreLugar" class="java.lang.String"/>
@@ -47,10 +43,6 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="0" y="0" width="84" height="79" uuid="56455503-c457-4d57-a318-4225cb6edbea"/>
-				<imageExpression><![CDATA["D:\\Escritorio\\reporte.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="238" y="37" width="100" height="20" uuid="fdf43162-eb2b-4a77-b3e3-fa3851490184"/>
 				<textElement textAlignment="Center">
@@ -106,7 +98,7 @@ WHERE
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="407" splitType="Stretch">
+		<band height="452" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="84" height="20" uuid="3530876c-2e84-4d3e-ace1-ddfae00e055b"/>
 				<textElement>
@@ -146,7 +138,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{controles_fechaHora}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="84" y="139" width="332" height="268" uuid="2ef4699b-0fe5-4f57-933b-e5132eba5eaf"/>
+				<reportElement x="84" y="139" width="387" height="313" uuid="2ef4699b-0fe5-4f57-933b-e5132eba5eaf"/>
 				<imageExpression><![CDATA[$F{informes_imagenInforme}]]></imageExpression>
 			</image>
 		</band>
